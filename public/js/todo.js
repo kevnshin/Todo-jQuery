@@ -8,11 +8,8 @@ $(function () {
       var list_item = $("<li>");
       list_item.html(text).addClass("list_item");
       $("ul.todo_list").append(list_item);
-
-      $("this").val().html("");
-
-
-
+      $(this).val('');
+      
     }
   
   });
