@@ -32,17 +32,14 @@ $(function () {
     
     if(this.checked){
 
-      $(this).siblings("span").first().wrap("<strike>");
-      //alternative way to do it
-      // $(this).parent().find("span").first().wrap("<strike>");
+      $(this).siblings("span").first().addClass("strike");
 
     } else {//unchecked
 
       console.log("yes");
-      $(this).siblings("strike").find("span").first().unwrap();
+      $(this).siblings("span").first().removeClass("strike");
 
     }
-
 
   });
 
