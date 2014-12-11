@@ -36,18 +36,25 @@ $(function () {
     
     if(this.checked){
 
-      $(this).siblings("span").first().addClass("strike");
+      $(this).siblings("span").addClass("strike");
       completed_counter++;
 
     } else {//unchecked
 
-      $(this).siblings("span").first().removeClass("strike");
+      $(this).siblings("span").removeClass("strike");
       completed_counter--;
     }
 
     update_counter(total_counter, completed_counter);
 
   });
+
+
+  // $("button#save").click(function (e) {
+
+  //   $.post("http://localhost:2020/save", data : { })
+    
+  // })
 
 
   function update_counter (total, completed) {
