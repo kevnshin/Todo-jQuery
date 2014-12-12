@@ -66,7 +66,7 @@ $(function () {
       list_to_save: JSON.stringify(list)
     }
 
-    $.post("http://localhost:2020/save", data);    
+    $.post("http://localhost:3000/save", data);    
 
   });
 

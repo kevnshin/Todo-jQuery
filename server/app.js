@@ -1,7 +1,17 @@
-var express = require('express')
-var app = express()
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
 
+
+//Middleware Area
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({extended: true}));
+
+
+app.post('/save', function (req, res) {
+  console.log(req.body);
+  res.send("success");
+})
 
 var server = app.listen(3000, function () {
 
