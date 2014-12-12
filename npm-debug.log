@@ -1,0 +1,96 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'i', '-S', 'expressjs' ]
+2 info using npm@2.0.2
+3 info using node@v0.10.32
+4 verbose node symlink /usr/local/bin/node
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ 'expressjs', null ]
+7 verbose cache add spec="expressjs" args=["expressjs",null]
+8 verbose parsed spec { raw: 'expressjs',
+8 verbose parsed spec   scope: null,
+8 verbose parsed spec   name: 'expressjs',
+8 verbose parsed spec   rawSpec: '',
+8 verbose parsed spec   spec: '*',
+8 verbose parsed spec   type: 'range' }
+9 verbose parsed spec { raw: 'expressjs',
+9 verbose parsed spec   scope: null,
+9 verbose parsed spec   name: 'expressjs',
+9 verbose parsed spec   rawSpec: '',
+9 verbose parsed spec   spec: '*',
+9 verbose parsed spec   type: 'range' }
+10 verbose addNamed [ 'expressjs', '*' ]
+11 verbose addNamed [ null, '*' ]
+12 silly lockFile 66b4cbbe-expressjs expressjs@*
+13 verbose lock expressjs@* /Users/kevinshin/.npm/66b4cbbe-expressjs.lock
+14 silly addNameRange { name: 'expressjs', range: '*', hasData: false }
+15 verbose mapToRegistry name expressjs
+16 verbose mapToRegistry uri https://registry.npmjs.org/expressjs
+17 verbose request on initialization, where is /expressjs
+18 verbose request after pass 1, where is /expressjs
+19 verbose request url raw /expressjs
+20 verbose request resolving registry [ 'https://registry.npmjs.org/', './expressjs' ]
+21 verbose request after pass 2, where is https://registry.npmjs.org/expressjs
+22 verbose request no auth needed
+23 info attempt registry request try #1 at 18:49:10
+24 verbose request id c17c56eef0b4fdc6
+25 http request GET https://registry.npmjs.org/expressjs
+26 http 404 https://registry.npmjs.org/expressjs
+27 verbose headers { date: 'Fri, 12 Dec 2014 04:49:11 GMT',
+27 verbose headers   server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+27 verbose headers   'content-type': 'application/json',
+27 verbose headers   'cache-control': 'max-age=0',
+27 verbose headers   'content-length': '52',
+27 verbose headers   'accept-ranges': 'bytes',
+27 verbose headers   via: '1.1 varnish',
+27 verbose headers   age: '0',
+27 verbose headers   'x-served-by': 'cache-lax1423-LAX',
+27 verbose headers   'x-cache': 'MISS',
+27 verbose headers   'x-cache-hits': '0',
+27 verbose headers   'x-timer': 'S1418359751.339125,VS0,VE315',
+27 verbose headers   'keep-alive': 'timeout=10, max=50',
+27 verbose headers   connection: 'Keep-Alive' }
+28 silly registry.get cb [ 404,
+28 silly registry.get   { date: 'Fri, 12 Dec 2014 04:49:11 GMT',
+28 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+28 silly registry.get     'content-type': 'application/json',
+28 silly registry.get     'cache-control': 'max-age=0',
+28 silly registry.get     'content-length': '52',
+28 silly registry.get     'accept-ranges': 'bytes',
+28 silly registry.get     via: '1.1 varnish',
+28 silly registry.get     age: '0',
+28 silly registry.get     'x-served-by': 'cache-lax1423-LAX',
+28 silly registry.get     'x-cache': 'MISS',
+28 silly registry.get     'x-cache-hits': '0',
+28 silly registry.get     'x-timer': 'S1418359751.339125,VS0,VE315',
+28 silly registry.get     'keep-alive': 'timeout=10, max=50',
+28 silly registry.get     connection: 'Keep-Alive' } ]
+29 silly lockFile 66b4cbbe-expressjs expressjs@*
+30 silly lockFile 66b4cbbe-expressjs expressjs@*
+31 verbose stack Error: 404 Not Found: expressjs
+31 verbose stack     at RegClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:258:14)
+31 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:197:65)
+31 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:237:22)
+31 verbose stack     at Request.emit (events.js:98:17)
+31 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1146:14)
+31 verbose stack     at Request.emit (events.js:117:20)
+31 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1097:12)
+31 verbose stack     at IncomingMessage.emit (events.js:117:20)
+31 verbose stack     at _stream_readable.js:943:16
+31 verbose stack     at process._tickCallback (node.js:419:13)
+32 verbose statusCode 404
+33 verbose pkgid expressjs
+34 verbose cwd /Users/kevinshin/DevLeague/Todo-jQuery
+35 error Darwin 14.0.0
+36 error argv "node" "/usr/local/bin/npm" "i" "-S" "expressjs"
+37 error node v0.10.32
+38 error npm  v2.0.2
+39 error code E404
+40 error 404 Not Found: expressjs
+40 error 404
+40 error 404 'expressjs' is not in the npm registry.
+40 error 404 You should bug the author to publish it (or use the name yourself!)
+40 error 404 It was specified as a dependency of 'Todo-jQuery'
+40 error 404
+40 error 404 Note that you can also install from a
+40 error 404 tarball, folder, http url, or git url.
+41 verbose exit [ 1, true ]
