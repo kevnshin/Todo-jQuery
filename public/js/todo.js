@@ -1,5 +1,14 @@
 $(function () {
 
+  //Auto load the save file
+  $.get("/todo_save.txt", function (data) {
+    var list_items = jQuery.parseJSON(data);
+
+    $.each(list_items, function (index, value) {
+      addListItem(value.title, value.completed);
+    });
+  });
+
   var total_counter = 0;
   var completed_counter = 0;
 
@@ -9,28 +18,8 @@ $(function () {
     if(e.keyCode === 13){
 
       var text = $(this).val();
-
       if(text !== ''){
-      
-        var list_item = $("<li>", {
-          class: "list_item"
-        });
-
-        var list_text = $("<span>", {
-          class: "list_text",
-          html: text
-        });
-        var checkbox = $("<input type='checkbox'>", {
-          class: "list_checkbox"
-        });
-        
-        list_item.append(checkbox);
-        list_item.append(list_text);
-      
-        $("ul.todo_list").append(list_item);
-        total_counter++;
-        update_counter(total_counter, completed_counter);
-
+        addListItem(text, false);
         $(this).val('');
       }
     }
@@ -80,6 +69,30 @@ $(function () {
 
   }
 
+  function addListItem (txt, completedState) {
 
+    var list_item = $("<li>", {
+      class: "list_item"
+    });
+
+    var list_text = $("<span>", {
+      class: "list_text",
+      html: txt
+    });
+
+    var checkbox = $("<input type='checkbox'>", {
+      class: "list_checkbox"
+    });
+    
+    if(completedState) {
+      checkbox.prop('checked', true);
+    }
+
+    list_item.append(checkbox);
+    list_item.append(list_text);
+    $("ul.todo_list").append(list_item);
+    total_counter++;
+    update_counter(total_counter, completed_counter);
+  }
 
 });

@@ -24,7 +24,7 @@ var server = app.listen(3000, function () {
 })
 
 function saveTodoList (content) {
-  fs.writeFile("./public/todo_save.json", content, function (err) {
+  fs.writeFile("./public/todo_save.txt", content, function (err) {
     if(err) return console.log(err);
     console.log("successfully saved todo_save.json");
   });
