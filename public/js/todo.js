@@ -1,17 +1,16 @@
 $(function () {
 
+  var total_counter = 0;
+  var completed_counter = 0;
+
   //Auto load the save file
   $.get("/todo_save.txt", function (data) {
     var list_items = jQuery.parseJSON(data);
 
     $.each(list_items, function (index, value) {
-      addListItem(value.title, value.completed);
+      addTodoItem(value.title, value.completed);
     });
   });
-
-  var total_counter = 0;
-  var completed_counter = 0;
-
 
   $("input#new_todofield").keydown(function (e) {
 
@@ -19,12 +18,11 @@ $(function () {
 
       var text = $(this).val();
       if(text !== ''){
-        addListItem(text, false);
+        addTodoItem(text, false);
         $(this).val('');
       }
     }
   });
-
 
   $("ul.todo_list").on("click", "input[type='checkbox']", function (e) {
     
@@ -38,6 +36,7 @@ $(function () {
     update_counter(total_counter, completed_counter);
   });
 
+  
 
   $("button#save").click(function (e) {
 
@@ -59,7 +58,6 @@ $(function () {
 
   });
 
-
   function update_counter (total, completed) {
 
     var remaining = total - completed;
@@ -69,10 +67,14 @@ $(function () {
 
   }
 
-  function addListItem (txt, completedState) {
+  function addTodoItem (txt, completedState) {
 
     var list_item = $("<li>", {
       class: "list_item"
+    });
+
+    var checkbox = $("<input type='checkbox'>", {
+      class: "list_checkbox"
     });
 
     var list_text = $("<span>", {
@@ -80,16 +82,18 @@ $(function () {
       html: txt
     });
 
-    var checkbox = $("<input type='checkbox'>", {
-      class: "list_checkbox"
-    });
+    var delete_button = $("<div>", {
+      class: "delete",
+      html: "X"
+    })
     
     if(completedState) {
       checkbox.prop('checked', true);
+      list_text.addClass("strike");
+      completed_counter++;
     }
 
-    list_item.append(checkbox);
-    list_item.append(list_text);
+    list_item.append(checkbox, list_text, delete_button);
     $("ul.todo_list").append(list_item);
     total_counter++;
     update_counter(total_counter, completed_counter);

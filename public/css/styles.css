@@ -1,3 +1,9 @@
 span.strike{
   text-decoration: line-through;
 }
+
+
+div.delete {
+  display: inline-block;
+  margin-left: 10px;
+}
