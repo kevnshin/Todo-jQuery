@@ -4,23 +4,32 @@ $(function () {
   var completed_counter = 0;
 
   //Auto load the save file
-  $.get("/todo_save.txt", function (data) {
-    var list_items = jQuery.parseJSON(data);
-
-    $.each(list_items, function (index, value) {
+  $.get("/items", function (todos) {
+    $.each(todos, function (index, value) {
       addTodoItem(value.title, value.completed);
     });
   });
 
   $("input#new_todofield").keydown(function (e) {
 
-    if(e.keyCode === 13){
+    var text = $(this).val();
 
-      var text = $(this).val();
-      if(text !== ''){
-        addTodoItem(text, false);
-        $(this).val('');
+    if(e.keyCode === 13 && text !== ''){
+
+      var post_data = {
+          new_item : {
+              title : text,
+              completed : false
+          }
       }
+
+    $.post('/item', post_data, function (data) {
+
+      addTodoItem(text, false);
+      $(this).val('');
+      
+    });   
+
     }
   });
 
@@ -36,27 +45,30 @@ $(function () {
     update_counter(total_counter, completed_counter);
   });
 
-  
 
-  $("button#save").click(function (e) {
 
-    var list = [];
 
-    $(".list_item").each( function (i, obj) {
-      list.push({
-        index: i,
-        title: $(obj).find("span.list_text").html(),
-        completed: $(obj).find("input:checked").length>0 
-      });
-    });
 
-    var data = {  
-      list_to_save: JSON.stringify(list)
-    }
 
-    $.post("http://localhost:3000/save", data);    
+  // $("button#save").click(function (e) {
 
-  });
+  //   var list = [];
+
+  //   $(".list_item").each( function (i, obj) {
+  //     list.push({
+  //       index: i,
+  //       title: $(obj).find("span.list_text").html(),
+  //       completed: $(obj).find("input:checked").length>0 
+  //     });
+  //   });
+
+  //   var data = {  
+  //     list_to_save: JSON.stringify(list)
+  //   }
+
+  //   $.post("http://localhost:3000/save", data);    
+
+  // });
 
   function update_counter (total, completed) {
 
@@ -84,10 +96,10 @@ $(function () {
 
     var delete_button = $("<div>", {
       class: "delete",
-      html: "X"
+      html: "x"
     })
     
-    if(completedState) {
+    if(completedState === true) {
       checkbox.prop('checked', true);
       list_text.addClass("strike");
       completed_counter++;

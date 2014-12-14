@@ -1,18 +1,58 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var MongoClient = require('mongodb').MongoClient;
 var app = express();
-
+var CONNECTION_STRING = "mongodb://localhost:27017/todosdb";
 
 //Middleware Area
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
+function connect_to_db (cb) {
+  MongoClient.connect(CONNECTION_STRING, function(err, db) {
+    if (err) {
+      throw err;
+    }
 
-app.post('/save', function (req, res) {
-  saveTodoList(req.body.list_to_save);
-  res.send("success");
-})
+    var collection = db.collection("todos");
+
+    cb(collection);
+  });
+}
+
+
+app.post('/item', function (req, res) {
+
+  connect_to_db( function (collection) {
+
+    // Insert a document into the collection
+    collection.insert(req.body.new_item, function(err, arrayItem) {
+    
+      console.log('err', err);
+      console.log('arrayItem', arrayItem);
+      res.send(arrayItem[0]);
+
+    }); // End of function(err, docs) callback
+  });
+});// Ends app.post
+
+app.get("/items", function (req, res) {
+
+  connect_to_db( function (collection) {
+
+    collection.find({}).toArray(function (err, arrayItem) {
+    
+      console.log('err', err);
+      console.log('arrayItem', arrayItem);
+      res.send(arrayItem);
+
+    }); // End of function(err, docs) callback
+  });
+});
+
+
+
 
 var server = app.listen(3000, function () {
 
