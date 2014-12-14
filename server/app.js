@@ -41,11 +41,11 @@ app.get("/items", function (req, res) {
 
   connect_to_db( function (collection) {
 
-    collection.find({}).toArray(function (err, arrayItem) {
+    collection.find({}).toArray(function (err, docs) {
     
-      console.log('err', err);
-      console.log('arrayItem', arrayItem);
-      res.send(arrayItem);
+      console.log("Found the following records");
+      console.dir(docs);
+      res.send(docs);
 
     }); // End of function(err, docs) callback
   });

@@ -3,7 +3,7 @@ $(function () {
   var total_counter = 0;
   var completed_counter = 0;
 
-  //Auto load the save file
+  //Auto load from the database
   $.get("/items", function (todos) {
     $.each(todos, function (index, value) {
       addTodoItem(value.title, value.completed);
@@ -14,20 +14,18 @@ $(function () {
 
     var text = $(this).val();
 
-    if(e.keyCode === 13 && text !== ''){
-
+    if(e.keyCode === 13 && text !== ''){//hit enter and field not empty
       var post_data = {
-          new_item : {
-              title : text,
-              completed : false
-          }
+        new_item : {
+          title : text,
+          completed : false
+        }
       }
 
     $.post('/item', post_data, function (data) {
-
+      //only if post data successfully sent, add it on the front-end
       addTodoItem(text, false);
       $(this).val('');
-      
     });   
 
     }
