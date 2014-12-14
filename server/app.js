@@ -1,6 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var fs = require('fs');
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var ObjectID = mongodb.ObjectID;
@@ -39,6 +38,38 @@ app.post('/item', function (req, res) {
     }); // End of function(err, docs) callback
   });
 });// Ends app.post
+
+app.put('/items/:id/:status', function (req, res) {
+  
+  connect_to_db( function (collection) {
+    var todo_id = req.params.id;
+    var todo_completed_status = req.params.status;
+
+    collection.update(
+      { '_id' : new ObjectID(todo_id)},
+      {
+        $set: {
+          completed: todo_completed_status
+        }
+      },
+      {w:1},
+      function (err) {
+        var success;
+        if(err) {
+          success = false;
+          console.warn(err.message);
+        } else {
+          success = true;
+          console.log("successfully updated");
+        }
+
+        collection.db.close();
+        res.json({success: success});
+      }//ends function (err)
+    );
+  });
+});
+
 
 app.get("/items", function (req, res) {
 

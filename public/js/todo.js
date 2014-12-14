@@ -33,7 +33,10 @@ $(function () {
 
   //checkbox event listener
   $("ul.todo_list").on("click", "input[type='checkbox']", function (e) {
-    
+    var checkbox = $( e.currentTarget );
+    var parent_li = checkbox.closest("li");
+    var object_id = parent_li.data("object-id"); 
+
     if(this.checked){
       $(this).siblings("span").addClass("strike");
       completed_counter++;
@@ -41,7 +44,24 @@ $(function () {
       $(this).siblings("span").removeClass("strike");
       completed_counter--;
     }
+
+    // console.log(this);
+
+    $.ajax('/items/' + /*this.parents("li").data("object-id")*/ object_id + '/' + this.checked,
+      {
+        type: "PUT",
+        success: function (data) {
+          console.log('data', data);
+        }
+      }
+    );
+    
+
+
     update_counter(total_counter, completed_counter);
+
+
+
   });
 
 
@@ -62,7 +82,7 @@ $(function () {
     });
 
     var checkbox = $("<input type='checkbox'>", {
-      class: "list_checkbox"
+      class: "list_checkbox",
     });
 
     var list_text = $("<span>", {
@@ -93,7 +113,7 @@ $(function () {
       }
     });//Ends delete button
     
-    if(li_item.completed === true) {
+    if(li_item.completed == "true") {
       checkbox.prop('checked', true);
       list_text.addClass("strike");
       completed_counter++;
