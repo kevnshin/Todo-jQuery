@@ -6,10 +6,11 @@ $(function () {
   //Auto load from the database
   $.get("/items", function (todos) {
     $.each(todos, function (index, value) {
-      addTodoItem(value.title, value.completed);
+      addTodoItem(value);
     });
   });
 
+  //Add New Item event listener (hit enter)
   $("input#new_todofield").keydown(function (e) {
 
     var text = $(this).val();
@@ -20,17 +21,17 @@ $(function () {
           title : text,
           completed : false
         }
-      }
+      }//end of post_data
 
-    $.post('/item', post_data, function (data) {
-      //only if post data successfully sent, add it on the front-end
-      addTodoItem(text, false);
-      $(this).val('');
-    });   
+      $.post('/item', post_data, function (data) {
+        //only if post data successfully sent, add it on the front-end
+        addTodoItem(data);
+      });
+      $(this).val('');//reset text field
+    }//End of if
+  });//End of event listener
 
-    }
-  });
-
+  //checkbox event listener
   $("ul.todo_list").on("click", "input[type='checkbox']", function (e) {
     
     if(this.checked){
@@ -44,30 +45,6 @@ $(function () {
   });
 
 
-
-
-
-
-  // $("button#save").click(function (e) {
-
-  //   var list = [];
-
-  //   $(".list_item").each( function (i, obj) {
-  //     list.push({
-  //       index: i,
-  //       title: $(obj).find("span.list_text").html(),
-  //       completed: $(obj).find("input:checked").length>0 
-  //     });
-  //   });
-
-  //   var data = {  
-  //     list_to_save: JSON.stringify(list)
-  //   }
-
-  //   $.post("http://localhost:3000/save", data);    
-
-  // });
-
   function update_counter (total, completed) {
 
     var remaining = total - completed;
@@ -77,10 +54,11 @@ $(function () {
 
   }
 
-  function addTodoItem (txt, completedState) {
+  function addTodoItem (li_item) {
 
     var list_item = $("<li>", {
-      class: "list_item"
+      class: "list_item",
+      "data-object-id": li_item._id
     });
 
     var checkbox = $("<input type='checkbox'>", {
@@ -89,15 +67,33 @@ $(function () {
 
     var list_text = $("<span>", {
       class: "list_text",
-      html: txt
+      html: li_item.title
     });
 
-    var delete_button = $("<div>", {
+    var delete_button = $("<button>", {
       class: "delete",
-      html: "x"
-    })
+      html: "[x]",
+      click: function (e) {
+        var button = $(e.currentTarget);
+        var object_id = button.closest("li").data("object-id");
+
+        $.ajax('/items/' + object_id, 
+          {
+            type: "DELETE",
+            success: function (data) {
+              total_counter--;
+              if(button.siblings("input").prop('checked') === true){
+                completed_counter--;
+              }
+              button.closest("li").remove();              
+              update_counter(total_counter, completed_counter);
+            }// Ends success
+          }//Ends ajax object 
+        )//Ends ajax params
+      }
+    });//Ends delete button
     
-    if(completedState === true) {
+    if(li_item.completed === true) {
       checkbox.prop('checked', true);
       list_text.addClass("strike");
       completed_counter++;
