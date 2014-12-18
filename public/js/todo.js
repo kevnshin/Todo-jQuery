@@ -37,17 +37,12 @@ $(function () {
     var parent_li = checkbox.closest("li");
     var object_id = parent_li.data("object-id"); 
 
-    if(this.checked){
-      $(this).siblings("span").addClass("strike");
-      completed_counter++;
-    } else {//unchecked
-      $(this).siblings("span").removeClass("strike");
-      completed_counter--;
-    }
+    $(this).siblings("span").toggleClass("strike");
 
-    // console.log(this);
-
-    $.ajax('/items/' + /*this.parents("li").data("object-id")*/ object_id + '/' + this.checked,
+    if(this.checked) completed_counter++;
+    else completed_counter--;
+    
+    $.ajax('/items/' + object_id + '/' + this.checked,
       {
         type: "PUT",
         success: function (data) {
@@ -55,23 +50,14 @@ $(function () {
         }
       }
     );
-    
-
-
+  
     update_counter(total_counter, completed_counter);
-
-
-
   });
 
-
   function update_counter (total, completed) {
-
     var remaining = total - completed;
-
     $("span.items_left").html(remaining);
     $("span.items_completed").html(completed);
-
   }
 
   function addTodoItem (li_item) {
@@ -102,9 +88,7 @@ $(function () {
             type: "DELETE",
             success: function (data) {
               total_counter--;
-              if(button.siblings("input").prop('checked') === true){
-                completed_counter--;
-              }
+              if(button.siblings("input").prop('checked') === true) completed_counter--;
               button.closest("li").remove();              
               update_counter(total_counter, completed_counter);
             }// Ends success
@@ -124,5 +108,4 @@ $(function () {
     total_counter++;
     update_counter(total_counter, completed_counter);
   }
-
 });

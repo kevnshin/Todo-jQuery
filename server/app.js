@@ -17,9 +17,7 @@ function connect_to_db (cb) {
     }
 
     var collection = db.collection("todos");
-    // var collection.end = db.close;
     cb(collection);
-
   });
 }
 
