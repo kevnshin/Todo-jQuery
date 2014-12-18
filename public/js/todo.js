@@ -1,8 +1,5 @@
 $(function () {
 
-  var total_counter = 0;
-  var completed_counter = 0;
-
   //Auto load from the database
   $.get("/items", function (todos) {
     $.each(todos, function (index, value) {
@@ -16,6 +13,8 @@ $(function () {
     var text = $(this).val();
 
     if(e.keyCode === 13 && text !== ''){//hit enter and field not empty
+
+      $(this).val('');//reset text field
       var post_data = {
         new_item : {
           title : text,
@@ -24,10 +23,9 @@ $(function () {
       }//end of post_data
 
       $.post('/item', post_data, function (data) {
-        //only if post data successfully sent, add it on the front-end
         addTodoItem(data);
       });
-      $(this).val('');//reset text field
+      
     }//End of if
   });//End of event listener
 
@@ -36,28 +34,19 @@ $(function () {
     var checkbox = $( e.currentTarget );
     var parent_li = checkbox.closest("li");
     var object_id = parent_li.data("object-id"); 
-
-    $(this).siblings("span").toggleClass("strike");
-
-    if(this.checked) completed_counter++;
-    else completed_counter--;
     
-    $.ajax('/items/' + object_id + '/' + this.checked,
-      {
-        type: "PUT",
-        success: function (data) {
-          console.log('data', data);
-        }
+    $.ajax('/items/' + object_id + '/' + this.checked, {
+      type: "PUT",
+      success: function (data) {
+        checkbox.siblings("span").toggleClass("strike");
+        update_counter();
       }
-    );
-  
-    update_counter(total_counter, completed_counter);
+    });
   });
 
-  function update_counter (total, completed) {
-    var remaining = total - completed;
-    $("span.items_left").html(remaining);
-    $("span.items_completed").html(completed);
+  function update_counter () {
+    $("span.items_left").html($(".list_text").not(".strike").length);
+    $("span.items_completed").html($(".strike").length);
   }
 
   function addTodoItem (li_item) {
@@ -87,10 +76,8 @@ $(function () {
           {
             type: "DELETE",
             success: function (data) {
-              total_counter--;
-              if(button.siblings("input").prop('checked') === true) completed_counter--;
               button.closest("li").remove();              
-              update_counter(total_counter, completed_counter);
+              update_counter();
             }// Ends success
           }//Ends ajax object 
         )//Ends ajax params
@@ -100,12 +87,10 @@ $(function () {
     if(li_item.completed == "true") {
       checkbox.prop('checked', true);
       list_text.addClass("strike");
-      completed_counter++;
     }
 
     list_item.append(checkbox, list_text, delete_button);
     $("ul.todo_list").append(list_item);
-    total_counter++;
-    update_counter(total_counter, completed_counter);
+    update_counter();
   }
 });
