@@ -44,6 +44,34 @@ $(function () {
     });
   });
 
+  //clear button event listener
+  $("button.clear").click(function () {
+    var answer = confirm("Are you sure you want to clear all completed items?")
+    if(answer){//yes
+
+      console.log($(".strike"));
+
+      // while($(".strike").length > 0) {
+      // var object_id = $(".strike").closest("li").data("object-id");
+
+      // console.log(object_id);
+
+      //   $.ajax('/items/' + object_id, {
+      //     type: "DELETE",
+      //     success: function (data) {
+      //       $(".strike").closest("li").remove();            
+      //       update_counter();
+      //     }// Ends success
+      //   });//Ends ajax params
+      // }
+
+
+    }
+
+  })
+
+
+  //FUNCTIONS
   function update_counter () {
     $("span.items_left").html($(".list_text").not(".strike").length);
     $("span.items_completed").html($(".strike").length);
