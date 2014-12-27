@@ -4,11 +4,33 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var ObjectID = mongodb.ObjectID;
 var app = express();
-var CONNECTION_STRING = "mongodb://localhost:27017/todosdb";
+var mongoose = require('mongoose');
+
+// var CONNECTION_STRING = "mongodb://localhost:27017/todosdb"; //DEV Environment
+// var CONNECTION_STRING = secrets.connectionString; //PRODUCT Environment
+
+//FIX: use actual link from mongolab
+var CONNECTION_STRING = 'mongodb://USER: ' + process.env.DBPASS + '@whatever mongolab tells us to do'; //PRODUCT Environment
+
 
 //Middleware Area
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
+
+mongoose.connect(CONNECTION_STRING);
+
+//Implement Schema here
+  var TodoSchema = mongoose.schema('Todo', {
+    title: String,
+    completed: Boolean  
+  })
+
+//Implement Model here
+var Todo = mongoose.model('Todo', TodoSchema);
+// model name has to match collection in Mongolab but singular (NOT PLURAL LIKE IN COLLECTION)
+
+// Example of model without schema
+// var Todo = mongoose.model('Todo', {title: String, completed: Boolean});
 
 function connect_to_db (cb) {
   MongoClient.connect(CONNECTION_STRING, function(err, db) {
