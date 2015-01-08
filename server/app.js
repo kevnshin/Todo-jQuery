@@ -10,14 +10,14 @@ var mongoose = require('mongoose');
 // var CONNECTION_STRING = secrets.connectionString; //PRODUCT Environment
 
 //FIX: use actual link from mongolab
-var CONNECTION_STRING = 'mongodb://todo: ' + process.env.DBPASS + '@ds031601.mongolab.com:31601/todo'; //PRODUCT Environment
+// var CONNECTION_STRING = 'mongodb://todo: ' + process.env.DBPASS + '@ds031601.mongolab.com:31601/todo'; //PRODUCT Environment
 
 
 //Middleware Area
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
-mongoose.connect(CONNECTION_STRING);
+// mongoose.connect(CONNECTION_STRING);
 
 //Implement Schema here
   // var TodoSchema = mongoose.Schema('Todo', {
